@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+require('./services/passport');
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -10,9 +11,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
-app.get('/', (req, res) => {
-  res.send({ hi: 'there' });
-});
+// app.get('/', (req, res) => {
+//   res.send({ hi: 'there' });
+// });
 
 // Catch-all route for later once React side is setup - Sends every request to the React app
 // Define any API routes before this runs
