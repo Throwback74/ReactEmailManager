@@ -1,20 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
 const path = require('path');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
+require('./models/User');
 require('./services/passport');
+
 
 // mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/appDB', { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
-mongoose.connect(keys.mongoURI);
+mongoose.connect(process.env.MONGODB_URI || keys.mongoURI, { useNewUrlParser: true });
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+)
 app.use(passport.initialize());
 app.use(passport.session());
 
